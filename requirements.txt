@@ -1,0 +1,17 @@
+# PDF parsing
+pdfplumber==0.11.0
+
+# Kraken API
+krakenex==2.1.0
+
+# Environment variables
+python-dotenv==1.0.1
+
+# HTTP requests (for Brave Search API later)
+requests==2.31.0
+
+# Rate limiting
+ratelimit==2.2.1
+
+# Anthropic Claude API (optional, for cloud analysis)
+anthropic==0.52.0

@@ -1,0 +1,19 @@
+# Environment and secrets
+.env
+
+# Virtual environment
+venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Personal portfolio data
+salkkuraportti.pdf
+data/
+inputs/
+archive/
+
+# Claude Code
+CLAUDE.md
+.claude/
