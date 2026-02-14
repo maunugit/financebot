@@ -2,9 +2,9 @@
 Nordnet salkkuraportti PDF parser.
 
 Extracts holdings from Nordnet portfolio report PDFs, including:
-- Stocks (Osakkeet)
-- ETFs (pörssilistatut arvopaperit)
-- Funds (Rahastot)
+- Stocks 
+- ETFs 
+- Funds 
 """
 
 import re
@@ -50,20 +50,6 @@ def generate_search_term(name: str, asset_type: str) -> str:
 
     for suffix in suffixes_to_remove:
         term = re.sub(suffix, '', term, flags=re.IGNORECASE)
-
-    # Special handling for known instruments
-    term_mappings = {
-        'iShares Automation & Robotics': 'automation robotics ETF',
-        'VanEck Gold Miners': 'gold miners ETF',
-        'iShares Core MSCI EM IMI': 'emerging markets ETF',
-        'VanEck Semiconductor': 'semiconductor ETF',
-        'Nordnet Maailma': 'global index fund',
-        'Nordnet Teknologia': 'technology index fund',
-    }
-
-    for key, value in term_mappings.items():
-        if key.lower() in term.lower():
-            return value
 
     # For stocks, add "stock" to improve search relevance
     if asset_type == 'stock':
@@ -263,25 +249,6 @@ def parse_pdf_simple(pdf_path: Path) -> dict:
         "accounts": [],
         "timestamp": None
     }
-
-    # Known holdings patterns based on the PDF structure we've seen
-    # Format: (name_pattern, asset_type, search_term)
-    known_patterns = [
-        # ETFs from Osake- ja rahastosalkku
-        (r'iShares Automation.*?Robotics.*?UCITS', 'etf', 'automation robotics ETF'),
-        (r'VanEck Gold Miners UCITS ETF', 'etf', 'gold miners ETF VanEck'),
-        (r'iShares Core MSCI EM.*?UCITS', 'etf', 'emerging markets ETF iShares'),
-        (r'VanEck Semiconductor UCITS ETF', 'etf', 'semiconductor ETF VanEck'),
-        # Funds
-        (r'Nordnet Maailma Indeksi', 'fund', 'Nordnet global index fund'),
-        (r'Nordnet Teknologia Indeksi', 'fund', 'Nordnet technology index fund'),
-        # Finnish stocks from Osakesäästötili
-        (r'Bittium Corporation', 'stock', 'Bittium stock'),
-        (r'Fortum Corporation', 'stock', 'Fortum stock'),
-        (r'Mandatum Oyj', 'stock', 'Mandatum stock'),
-        (r'Nordea Bank Abp', 'stock', 'Nordea Bank stock'),
-        (r'Orion Corporation', 'stock', 'Orion Corporation stock Finland'),
-    ]
 
     with pdfplumber.open(pdf_path) as pdf:
         full_text = ""
